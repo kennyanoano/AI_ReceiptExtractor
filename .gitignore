@@ -1,0 +1,6 @@
+secret
+secret.json
+*.json
+test/*
+.venv
+__pycache__
