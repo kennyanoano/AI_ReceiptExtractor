@@ -2,6 +2,7 @@ import os
 import sys
 from tkinter import Tk, Label, Button, Entry, filedialog
 from text_extractor import gen_chat_response_with_gpt4
+from PIL import Image
 
 def write_to_text_file(file_path, text):
     """
@@ -30,11 +31,17 @@ def process_images():
     output_text_file = os.path.join(folder_path, 'results.txt')
     image_files = [f for f in os.listdir(folder_path) if os.path.splitext(f)[1].lower() in valid_extensions]
 
+    max_size = (1600, 1600)  # ここで許容する最大サイズを設定
+
     for image_file in image_files:
         image_path = os.path.join(folder_path, image_file)
         try:
+            with Image.open(image_path) as img:
+                if img.size[0] > max_size[0] or img.size[1] > max_size[1]:
+                    img.thumbnail(max_size)
+                    img.save(image_path)  # 縮小した画像を上書き保存
+
             result = gen_chat_response_with_gpt4(image_path)
-            # ここで画像ファイル名と結果をカンマで区切って保存
             write_to_text_file(output_text_file, f"{image_file}, {result}")
         except Exception as e:
             print(f"Error processing {image_file}: {str(e)}")
@@ -56,4 +63,5 @@ def main():
     root.mainloop()
 
 if __name__ == "__main__":
+    main()
     main()
