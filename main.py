@@ -34,7 +34,8 @@ def process_images():
         image_path = os.path.join(folder_path, image_file)
         try:
             result = gen_chat_response_with_gpt4(image_path)
-            write_to_text_file(output_text_file, result)
+            # ここで画像ファイル名と結果をカンマで区切って保存
+            write_to_text_file(output_text_file, f"{image_file}, {result}")
         except Exception as e:
             print(f"Error processing {image_file}: {str(e)}")
             with open(os.path.join(folder_path, 'error_log.txt'), 'a') as log_file:
