@@ -4,3 +4,6 @@ secret.json
 test/*
 .venv
 __pycache__
+settings.json
+build
+main.spec
