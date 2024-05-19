@@ -1,9 +1,10 @@
+#opneAIとのやり取りの部分
 import base64
 import json
 from openai import OpenAI
 
 SYSTEM_ROLE_CONTENT = "このシステムは提供された画像の内容を説明を生成します。画像を識別し視覚情報をテキスト形式で提供します。"
-PROMPT_TEMPLATE = "画像から、取引年月日(yyyy/mm/ddのみ時間なし)、店舗名、商品名(要約)、合計金額(通貨記号は削除)、推測される勘定科目名を抽出しカンマ区切り(,)でreturnせよ"
+#PROMPT_TEMPLATE = "画像から、取引年月日(yyyy/mm/ddのみ時間なし)、店舗名、商品名(要約)、合計金額(通貨記号は削除)、推測される勘定科目名を抽出しカンマ区切り(,)でreturnせよ"
 
 def get_gpt_openai_apikey():
     with open("secret.json") as f:
@@ -39,10 +40,10 @@ def create_message(system_role, prompt, image_base64):
     ]
     return message
 
-def gen_chat_response_with_gpt4(image_path, api_key):
+def gen_chat_response_with_gpt4(image_path, api_key, prompt_template):
     openai_client = OpenAI(api_key=api_key)
     image_base64 = encode_image(image_path)
-    messages = create_message(SYSTEM_ROLE_CONTENT, PROMPT_TEMPLATE, image_base64)
+    messages = create_message(SYSTEM_ROLE_CONTENT, prompt_template, image_base64)
 
     # Adding a new prompt to extract the account name based on the product name
     #account_name_prompt = "商品名から推測される勘定科目名をreturn"
