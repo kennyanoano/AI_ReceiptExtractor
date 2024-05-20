@@ -3,8 +3,7 @@ import base64
 import json
 from openai import OpenAI
 
-SYSTEM_ROLE_CONTENT = "このシステムは提供された画像の内容を説明を生成します。画像を識別し視覚情報をテキスト形式で提供します。"
-#PROMPT_TEMPLATE = "画像から、取引年月日(yyyy/mm/ddのみ時間なし)、店舗名、商品名(要約)、合計金額(通貨記号は削除)、推測される勘定科目名を抽出しカンマ区切り(,)でreturnせよ"
+SYSTEM_ROLE_CONTENT = "このシステムは提供された画像の内容の説明を生成します。画像を識別し視覚情報をテキスト形式で提供します。"
 
 def get_gpt_openai_apikey():
     with open("secret.json") as f:
@@ -45,28 +44,16 @@ def gen_chat_response_with_gpt4(image_path, api_key, prompt_template):
     image_base64 = encode_image(image_path)
     messages = create_message(SYSTEM_ROLE_CONTENT, prompt_template, image_base64)
 
-    # Adding a new prompt to extract the account name based on the product name
-    #account_name_prompt = "商品名から推測される勘定科目名をreturn"
-    #messages[1]['content'].append({
-    #    'type': 'text',
-    #    'text': account_name_prompt
-    #})
-
     response = openai_client.chat.completions.create(
         model='gpt-4o-2024-05-13',
         messages=messages,
-        temperature=0.1,
+        temperature=0,
     )
 
-
-    # レスポンスから必要な情報を抽出
     if response and response.choices:
         extracted_data = response.choices[0].message.content
-    #    account_name = response.choices[1].message.content if len(response.choices) > 1 else "No account name found"
     else:
         extracted_data = "No data extracted"
-    #    account_name = "No account name found"
 
     #return extracted_data, account_name
     return extracted_data
-
