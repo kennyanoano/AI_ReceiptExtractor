@@ -46,6 +46,11 @@ def write_to_text_file(file_path, text):
     with open(file_path, 'a') as file:
         file.write(text + "\n")
 
+    # CSVファイルにも書き込む
+    csv_file_path = os.path.splitext(file_path)[0] + '.csv'
+    with open(csv_file_path, 'a') as csv_file:
+        csv_file.write(text + "\n")
+
 def select_folder(folder_entry):
     folder_path = filedialog.askdirectory()
     if folder_path:
@@ -59,7 +64,7 @@ def process_images(api_key, max_size, resize_enabled, folder_entry, progress_var
         print("フォルダが選択されていません。")
         return
     
-    valid_extensions = ['.jpg', '.png']
+    valid_extensions = ['.jpg', '.jpeg', '.png']  # '.jpeg' を追加
     output_text_file = os.path.join(folder_path, 'results.txt')
     image_files = [f for f in os.listdir(folder_path) if os.path.splitext(f)[1].lower() in valid_extensions]
     total_images = len(image_files)
@@ -156,10 +161,10 @@ def main():
     # プログレスバーのUIを追加
     progress_var = IntVar()
     progress_bar = ttk.Progressbar(root, maximum=100, variable=progress_var, mode='determinate')
-    progress_bar.pack(side="top", fill="x", padx=20, pady=10)
+    progress_bar.pack(side="top", fill="x", padx=20, pady=(10, 5))  # pady を (10, 5) に変更
 
     # Start processing button
-    Button(root, text="レシート一括処理開始", command=lambda: process_images(api_key_var.get(), max_size_var.get(), resize_enabled_var.get(), folder_entry, progress_var, root)).pack(side="top", fill="x", padx=20, pady=10)
+    Button(root, text="レシート一括処理開始", command=lambda: process_images(api_key_var.get(), max_size_var.get(), resize_enabled_var.get(), folder_entry, progress_var, root)).pack(side="top", fill="x", padx=20, pady=(0, 10))  # pady を (0, 10) に変更
 
     # API Key UI at the bottom
     api_key_frame = Frame(root)
