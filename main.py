@@ -19,7 +19,7 @@ resize_enabled_var = None
 def load_settings():
     default_settings = {
         "api_key": "",
-        "max_size": 2048,
+        "max_size": 1800,
         "resize_enabled": True,
         "prompt_template": PROMPT_TEMPLATE  # Use the defined default prompt template
     }
