@@ -1,11 +1,18 @@
-secret
+# Secrets
 secret.json
-*.json
-test/*
+
+# Cache and virtual environment
 .venv
 __pycache__
-settings.json
 build
-main.spec
+
+# Test files
 test/*
+
+# Build files
+main.spec
+
+# Other
 領収書処理(パス書き換えてね).bat
+APP_Manager.json
+settings.json
