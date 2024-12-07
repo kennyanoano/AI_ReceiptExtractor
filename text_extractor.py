@@ -45,7 +45,7 @@ def gen_chat_response_with_gpt4(image_path, api_key, prompt_template):
     messages = create_message(SYSTEM_ROLE_CONTENT, prompt_template, image_base64)
 
     response = openai_client.chat.completions.create(
-        model='gpt-4o-2024-05-13',
+        model='gpt-4o',
         messages=messages,
         temperature=0,
     )

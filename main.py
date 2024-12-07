@@ -24,7 +24,7 @@ def load_settings():
         "prompt_template": PROMPT_TEMPLATE  # Use the defined default prompt template
     }
     if os.path.exists("settings.json"):
-        with open("settings.json", "r") as f:
+        with open("settings.json", "r", encoding='utf-8') as f:
             try:
                 settings = json.load(f)
                 return {**default_settings, **settings}
@@ -39,7 +39,7 @@ def save_settings(api_key, max_size, resize_enabled, prompt_template):
         "resize_enabled": resize_enabled,
         "prompt_template": prompt_template
     }
-    with open("settings.json", "w") as f:
+    with open("settings.json", "w", encoding='utf-8') as f:
         json.dump(settings, f)
 
 def write_to_text_file(file_path, text):
